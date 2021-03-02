@@ -1,32 +1,35 @@
 package com;
 
-import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class Item {
+	
 
-	public Connection connect()
-	{
-	 Connection con = null;
 
-	 try
-	 { 
-	 Class.forName("com.mysql.jdbc.Driver");
-	 con= DriverManager.getConnection("jdbc:mysql://127.0.0.1:1433/item",
-	 "root", "");
-	 //For testing
-	 System.out.print("Successfully connected");
-	 }
-	 catch(Exception e)
-	 {
-	 e.printStackTrace();
-	 }
-
-	 return con;
+	public Connection connect() {
+		
+		Connection con = null;
+		
+		try { 
+			
+			Class.forName("com.mysql.jdbc.Driver");
+			con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:1433/item", "root", "");
+		
+		    System.out.println("Successfully connected");
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return con;
 	}
 	
-	public String insertItem(String code, String name, String price, String desc) {
+	public String insertItem(String code,String name, String price,String desc) {
+		
 		String output = "";
 		
 		try {
@@ -38,7 +41,7 @@ public class Item {
 			
 		}
 		
-		String query = "insert into items(ItemID,ItemCode,ItemName,ItemPrice,ItemDesc)"+" values(?,?,?,?,?)";
+		String query = "insert into item(ItemID,ItemCode,ItemName,ItemPrice,ItemDesc)"+" values(?,?,?,?,?)";
 		
 		PreparedStatement preparedStmt = con.prepareStatement(query);
 		
@@ -82,7 +85,7 @@ public class Item {
 			  + "<th>Item Description</th>"
 			  + "<th>Update</th><th>Remove</th></tr>";
 			
-			 String query = "select * from items";
+			 String query = "select * from item";
 			 Statement stmt = con.createStatement();
 			 ResultSet rs = stmt.executeQuery(query);
 			 
@@ -103,10 +106,10 @@ public class Item {
 				 // buttons
 				 output += "<td><input name='btnUpdate' "
 				 + " type='button' value='Update'></td>"
-				 + "<td><form method='post' action='items.jsp'>"
+				 + "<td><form method='post' action='Items.jsp'>"
 				 + "<input name='btnRemove' "
 				 + " type='submit' value='Remove'>"
-				 + "<input name='itemID' type='hidden' "
+				 + "<input name='ItemID' type='hidden' "
 				 + " value='" + ItemID + "'>" + "</form></td></tr>";
 			 	}
 			 con.close();
